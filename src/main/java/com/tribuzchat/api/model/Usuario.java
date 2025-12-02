@@ -54,7 +54,21 @@ public class Usuario {
     )
     private List<Tribo> tribos = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "tb_usuario_post",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id")
+    )
+    private List<Post> posts = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "tb_usuario_comentario",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "comentario_id")
+    )
+    private List<Comentario> comentarios = new ArrayList<>();
 
 
 }

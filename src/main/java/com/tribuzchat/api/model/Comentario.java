@@ -15,28 +15,20 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tb_grupo")
-public class Grupo {
+@Table(name = "tb_comentario")
+public class Comentario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
-    private String descricao;
-
+    private String texto;
 
     @CreationTimestamp
-    @Column(name = "data_cadastroGrupo", nullable = false, updatable = false)
-    private LocalDateTime data_cadastro;
+    @Column(name = "data_cadastroComentario", nullable = false, updatable = false)
+    private LocalDateTime data_cadastro;;
 
 
-    @ManyToOne
-    @JoinColumn(name = "id_tribo")
-    private Tribo tribo;
-
-
-    @ManyToMany(mappedBy = "grupos")
+    @ManyToMany(mappedBy = "comentarios")
     private List<Usuario> usuarios = new ArrayList<>();
 
 }
-
