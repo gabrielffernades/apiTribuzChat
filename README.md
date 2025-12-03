@@ -82,9 +82,12 @@ Cria um novo usuário.
   "cpf": "12345678900",
   "email": "joao@email.com",
   "senha": "senha123",
-  "data_nascimento": "1990-01-15"
+  "data_nascimento": "1990-01-15",
+  "icone": "person"
 }
 ```
+
+**Nota:** O campo `icone` é opcional. Se não fornecido, um ícone aleatório será atribuído automaticamente entre 30 opções disponíveis (person, face, account_circle, music_note, code, etc.).
 
 **Response:**
 - `201 Created` - Usuário criado com sucesso
@@ -101,8 +104,9 @@ Lista todos os usuários.
     "nome": "João Silva",
     "cpf": "12345678900",
     "email": "joao@email.com",
+    "icone": "person",
     "data_nascimento": "1990-01-15",
-    "data_cadastroUsuario": "2025-12-02"
+    "data_cadastroUsuario": "2025-12-02T10:30:00"
   }
 ]
 ```
@@ -188,8 +192,13 @@ Cria um novo grupo.
 - cpf: String (obrigatório, único)
 - email: String (opcional)
 - senha: String (obrigatório)
+- icone: String (Material Icons - gerado automaticamente se não fornecido)
 - data_nascimento: LocalDate (obrigatório)
 - data_cadastroUsuario: LocalDate (auto-preenchido)
+- grupos: List<Grupo> (ManyToMany)
+- tribos: List<Tribo> (ManyToMany)
+- posts: List<Post> (ManyToMany)
+- comentarios: List<Comentario> (ManyToMany)
 ```
 
 ### Tribo
@@ -209,6 +218,14 @@ O projeto usa uma configuração global do Jackson para formatar datas:
 
 - **Formato:** `yyyy-MM-dd`
 - **Configuração:** `com.tribuzchat.api.config.JacksonConfig`
+
+### Geração Automática de Ícones
+
+O sistema atribui automaticamente um ícone Material Icons para cada usuário criado:
+
+- **30 ícones disponíveis:** person, face, account_circle, sentiment_satisfied, mood, person_outline, face_3, face_4, face_5, face_6, tag_faces, waving_hand, self_improvement, sports_esports, music_note, palette, code, fitness_center, book, camera_alt, restaurant, flight, school, business, science, psychology, favorite, star, celebration
+- **Atribuição:** Aleatória se o campo `icone` não for fornecido no cadastro
+- **Implementação:** `com.tribuzchat.api.service.UsuarioService.criarUsuario()`
 
 ### Tratamento de Erros
 
@@ -264,6 +281,9 @@ SELECT setval(
 - CPF é armazenado sem formatação (apenas números)
 - A senha é armazenada em texto plano (considerar hash em produção)
 - O Hibernate cria/atualiza as tabelas automaticamente (`ddl-auto=update`)
+- Ícones são armazenados como strings (nomes dos Material Icons)
+- Cada usuário recebe um ícone aleatório se não especificado no cadastro
+- O frontend usa os ícones para exibir avatares personalizados
 
 ## 🔒 Segurança
 
