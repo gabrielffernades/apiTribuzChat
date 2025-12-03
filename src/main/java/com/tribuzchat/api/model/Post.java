@@ -1,8 +1,10 @@
 package com.tribuzchat.api.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -15,28 +17,20 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tb_grupo")
-public class Grupo {
+@Table(name = "tb_post")
+public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
-    private String descricao;
+    private String texto;
 
 
     @CreationTimestamp
-    @Column(name = "data_cadastroGrupo", nullable = false, updatable = false)
+    @Column(name = "data_cadastroPost", nullable = false, updatable = false)
     private LocalDateTime data_cadastro;
 
-
-    @ManyToOne
-    @JoinColumn(name = "id_tribo")
-    private Tribo tribo;
-
-
-    @ManyToMany(mappedBy = "grupos")
+    @ManyToMany(mappedBy = "posts")
     private List<Usuario> usuarios = new ArrayList<>();
 
 }
-
