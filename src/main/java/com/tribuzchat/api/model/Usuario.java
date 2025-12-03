@@ -24,6 +24,7 @@ public class Usuario {
     private String nome;
     private String email;
     private String senha;
+    private String icone; // Ícone Material Icons para o usuário
 
 
     @Column(name = "data_nascimento", nullable = false)
