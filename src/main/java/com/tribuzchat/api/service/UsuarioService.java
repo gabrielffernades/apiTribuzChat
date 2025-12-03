@@ -35,4 +35,14 @@ public class UsuarioService {
         throw new RuntimeException("Usuário ou senha inválidos");
     }
 
+    public void redefinirSenha(String cpf, String novaSenha) {
+        Optional<Usuario> usuario = usuarioRepository.findByCpf(cpf);
+        if (usuario.isEmpty()) {
+            throw new RuntimeException("CPF não encontrado");
+        }
+        Usuario usuarioEncontrado = usuario.get();
+        usuarioEncontrado.setSenha(novaSenha);
+        usuarioRepository.save(usuarioEncontrado);
+    }
+
 }

@@ -57,4 +57,38 @@ public class UsuarioController {
         }
     }
 
+    @PostMapping("/redefinir-senha")
+    public ResponseEntity<?> redefinirSenha(@RequestBody Map<String, String> request) {
+        try {
+            String cpf = request.get("cpf");
+            String novaSenha = request.get("novaSenha");
+            
+            if (cpf == null || cpf.trim().isEmpty()) {
+                Map<String, String> error = new HashMap<>();
+                error.put("message", "CPF é obrigatório");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+            }
+            
+            if (novaSenha == null || novaSenha.trim().isEmpty()) {
+                Map<String, String> error = new HashMap<>();
+                error.put("message", "Nova senha é obrigatória");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+            }
+            
+            usuariosService.redefinirSenha(cpf, novaSenha);
+            
+            Map<String, String> success = new HashMap<>();
+            success.put("message", "Senha redefinida com sucesso");
+            return ResponseEntity.ok(success);
+        } catch (RuntimeException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("message", "Erro ao redefinir senha: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+        }
+    }
+
 }
