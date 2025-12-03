@@ -1,6 +1,5 @@
 package com.tribuzchat.api.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -27,7 +26,6 @@ public class Usuario {
     private String senha;
 
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate data_nascimento;
 

@@ -23,9 +23,16 @@ public class UsuarioController {
 //------------------------------------------------------------------------------------------
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void criarUsuario(@RequestBody Usuario usuario){
-        usuariosService.criarUsuario(usuario);
+    public ResponseEntity<?> criarUsuario(@RequestBody Usuario usuario){
+        try {
+            usuariosService.criarUsuario(usuario);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("message", e.getMessage());
+            error.put("error", e.getClass().getSimpleName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        }
     }
 
 
